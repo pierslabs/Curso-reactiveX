@@ -8,40 +8,34 @@ const observer: Observer<any> = {
 }
 
 
-// const osb$ = Observable.create()
+const intervalo$ = new Observable<number>( subs =>  {
+  // crear contador
+  let count = 0;
+
+  const interval = setInterval(()=> {
+    // cada segundo
+    count ++;
+    subs.next(count)
+
+  },1000);
+
+  return ()=>{
+    clearInterval(interval)
+    console.log('intervalo destruido')
+  }
+
+});
 
 
-// const obs$ = new Observable<string>( subscriber => {
+const subscription1 = intervalo$.subscribe( num => console.log( 'Num:', num))
+// const subscription2 = intervalo$.subscribe( num => console.log( 'Num:', num))
+const subscription3 = intervalo$.subscribe( num => console.log( 'Num:', num))
 
-//   subscriber.next('hola')
-//   subscriber.next('MUNDO')
+setTimeout(()=>{
+  // se ejecuta pasado 3s
+  subscription1.unsubscribe()
+  subscription3.unsubscribe()
 
+  const subscription2 = intervalo$.subscribe( num => console.log( 'Num:', num))
 
-  // subscriber.next(1)
-  // subscriber.next('MUNDO')
-
-  // forzar el error
-  // const a = undefined;
-  // a.nombre = 'garbancito'
-
-//   subscriber.complete()
-
-
-//   subscriber.next('hola')
-//   subscriber.next('MUNDO')
-
-// })
-
-// obs$.subscribe( observer)
-// obs$.subscribe()
-
-// obs$.subscribe(console.log)
-
-//  obs$.subscribe(
-//    valor =>  console.log('next:', valor),
-//    error => console.warn('error:', error),
-//    ()=> console.info('completado')
-//  )
-
-
-
+},3000)
