@@ -1,19 +1,14 @@
 import { fromEvent } from 'rxjs'
 
-
 /**
  * eventos del DOM
  */
 
-
-
-const src1$ = fromEvent<PointerEvent>(document, 'click') 
-const src2$ = fromEvent<KeyboardEvent>(document, 'keyup') 
-
-
+const src1$ = fromEvent<PointerEvent>(document, 'click')
+const src2$ = fromEvent<KeyboardEvent>(document, 'keyup')
 
 const observer = {
-  next: val => console.log('next', val)
+	next: (val) => console.log('next', val),
 }
 
 //puntos en pantalla
@@ -21,9 +16,9 @@ const observer = {
 //   console.log(ev.x, ev.y)
 // })
 
-src1$.subscribe(({x, y}) => {
-  console.log( x, y)
+src1$.subscribe(({ x, y }) => {
+	console.log(x, y)
 })
 
 //teclas
-src2$.subscribe(evento => console.log(evento.key))
+src2$.subscribe((evento) => console.log(evento.key))

@@ -1,26 +1,19 @@
-
-import { Observable, Observer, Subject} from 'rxjs'
+import { Observable, Observer, Subject } from 'rxjs'
 
 const observer: Observer<any> = {
-  next: value => console.log( 'siguiente [next]:', value),
-  error: err => console.warn('error [erro]:', err),
-  complete: () => console.info('complete')
+	next: (value) => console.log('siguiente [next]:', value),
+	error: (err) => console.warn('error [erro]:', err),
+	complete: () => console.info('complete'),
 }
 
-const intervalo$ =  new Observable<number>( subs => {
+const intervalo$ = new Observable<number>((subs) => {
+	const intervalID = setInterval(() => subs.next(Math.random()), 1000)
 
-  const intervalID = setInterval(
-      ()=> subs.next(Math.random()
-    )
-    ,1000);
-
-
-  return()=>{
-    clearInterval( intervalID);
-    console.log('intervalo destruido')
-  }
+	return () => {
+		clearInterval(intervalID)
+		console.log('intervalo destruido')
+	}
 })
-
 
 /*
 **propiedades**
@@ -29,7 +22,7 @@ const intervalo$ =  new Observable<number>( subs => {
 3- Next erro y complete
 */
 
-const subject$ = new Subject();
+const subject$ = new Subject()
 const intervalSubject = intervalo$.subscribe(subject$)
 
 //las subscripciones son las mismas los humeros son iguales
@@ -39,12 +32,12 @@ const subs1 = subject$.subscribe(observer)
 const subs2 = subject$.subscribe(observer)
 
 setTimeout(() => {
-  //como obseerver  es muy util permite insertar info al flujo de datos que
-  //el observable está emitiendo
-  //cuando la dat es producida por el observable en sí mismo es un COld Observable
-  // cuando la data es producida fuera es un  Hot observable
-  subject$.next(10)
-  subject$.complete()
+	//como obseerver  es muy util permite insertar info al flujo de datos que
+	//el observable está emitiendo
+	//cuando la dat es producida por el observable en sí mismo es un COld Observable
+	// cuando la data es producida fuera es un  Hot observable
+	subject$.next(10)
+	subject$.complete()
 
-  intervalSubject.unsubscribe()
-}, 3500);
+	intervalSubject.unsubscribe()
+}, 3500)
