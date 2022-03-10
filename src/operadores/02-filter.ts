@@ -15,8 +15,8 @@ range(20, 30)
 	.subscribe(console.log)
 
 interface Personaje {
-  tipo: string,
-  nombre:string
+	tipo: string
+	nombre: string
 }
 
 const personajes: Personaje[] = [
@@ -34,17 +34,15 @@ const personajes: Personaje[] = [
 	},
 ]
 
-
-from<Personaje[]>(personajes).pipe(
-  filter(personaje => personaje.tipo === 'heroe')
-).subscribe(console.log)
-
+from<Personaje[]>(personajes)
+	.pipe(filter((personaje) => personaje.tipo === 'heroe'))
+	.subscribe(console.log)
 
 // Encadenamiento de operadores
-
-const keyup$ = fromEvent<KeyboardEvent>( document, 'keyup').pipe(
-  map( event => event.code), //KeyboardEvent, string
-  filter(key => key === 'Enter' )
+// operadores flujo : fromEvent => map => filter
+const keyup$ = fromEvent<KeyboardEvent>(document, 'keyup').pipe(
+	map((event) => event.code), //KeyboardEvent, string
+	filter((key) => key === 'Enter')
 )
 
 keyup$.subscribe(console.log)
